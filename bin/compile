@@ -68,6 +68,10 @@ create_env() {
   export_env_dir "$ENV_DIR"
   create_default_env
 }
+show_disk() {
+  echo "DEBUG"
+  df -h
+}
 
 header "Creating runtime environment"
 create_env # can't pipe the whole thing because piping causes subshells, preventing exports
@@ -98,6 +102,7 @@ install_bins() {
   warn_old_npm
 }
 
+show_disk
 header "Installing binaries"
 install_bins | output "$LOG_FILE"
 
@@ -120,6 +125,7 @@ restore_cache() {
 
 header "Restoring cache"
 restore_cache | output "$LOG_FILE"
+show_disk
 
 build_dependencies() {
   if $PREBUILD; then
@@ -132,6 +138,7 @@ build_dependencies() {
 
 header "Building dependencies"
 build_dependencies | output "$LOG_FILE"
+show_disk
 
 cache_build() {
   local cache_directories=$(get_cache_directories)
@@ -152,6 +159,7 @@ cache_build() {
 
 header "Caching build"
 cache_build | output "$LOG_FILE"
+show_disk
 
 summarize_build() {
   cd $BUILD_DIR
