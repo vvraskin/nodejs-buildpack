@@ -71,6 +71,7 @@ create_env() {
 show_disk() {
   echo "DEBUG"
   df -h
+  df -i
 }
 
 header "Creating runtime environment"
